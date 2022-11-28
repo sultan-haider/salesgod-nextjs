@@ -116,7 +116,6 @@ export const AuthProvider: FC<AuthProviderProps> = (props) => {
           redirect_uri: window.location.origin + '/authentication/authorize',
           domain: auth0Config.domain!,
           client_id: auth0Config.client_id!,
-          client_secrete: auth0Config.client_secrete,
           cacheLocation: 'localstorage'
         });
 
