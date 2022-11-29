@@ -44,6 +44,7 @@
     "@mui/material": "5.10.5",
     "@mui/system": "5.10.5",
     "@mui/x-date-pickers": "5.0.1",
+    "@prisma/client": "^4.6.1",
     "@react-pdf/renderer": "3.0.0",
     "@reduxjs/toolkit": "1.8.5",
     "@types/lodash": "4.14.185",
@@ -94,6 +95,11 @@
     "@svgr/webpack": "6.3.1",
     "eslint": "8.23.1",
     "eslint-config-next": "12.3.0",
-    "next-transpile-modules": "9.0.0"
+    "next-transpile-modules": "9.0.0",
+    "prisma": "^4.6.1",
+    "ts-node": "^10.9.1"
+  },
+  "prisma": {
+    "schema": "src/prisma/schema.prisma"
   }
 }
