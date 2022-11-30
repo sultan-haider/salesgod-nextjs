@@ -12,14 +12,19 @@ import {
   Typography
 } from '@mui/material';
 import { UserCircle as UserCircleIcon } from '../../../icons/user-circle';
+import { useAuth } from '../../../hooks/use-auth'
 
 export const AccountGeneralSettings: FC = (props) => {
   // To get the user from the authContext, you can use
-  // `const { user } = useAuth();`
-  const user = {
-    avatar: '/static/mock-images/avatars/avatar-anika_visser.png',
-    name: 'Anika Visser'
-  };
+  const { user } = useAuth();
+  // const user = {
+  //   avatar: '/static/mock-images/avatars/avatar-anika_visser.png',
+  //   name: 'Anika Visser'
+  // };
+
+  const handlePasswordChange = () => {
+    console.log('password change')
+  }
 
   return (
     <Box
@@ -94,10 +99,9 @@ export const AccountGeneralSettings: FC = (props) => {
                 }}
               >
                 <TextField
-                  defaultValue="dummy.account@gmail.com"
+                  defaultValue={user?.email}
                   disabled
                   label="Email Address"
-                  required
                   size="small"
                   sx={{
                     flexGrow: 1,
@@ -108,6 +112,33 @@ export const AccountGeneralSettings: FC = (props) => {
                   }}
                 />
                 <Button>
+                  Edit
+                </Button>
+              </Box>
+              <Box
+                  sx={{
+                    display: 'flex',
+                    mt: 3,
+                    alignItems: 'center'
+                  }}
+              >
+                <TextField
+                    disabled
+                    label="Password"
+                    type="password"
+                    defaultValue="Thebestpasswordever123#"
+                    size="small"
+                    sx={{
+                      flexGrow: 1,
+                      mr: 3,
+                      ...({
+                        '& .MuiOutlinedInput-notchedOutline': {
+                          borderStyle: 'dotted'
+                        }
+                      })
+                    }}
+                />
+                <Button onClick={handlePasswordChange}>
                   Edit
                 </Button>
               </Box>

@@ -138,7 +138,7 @@ export const AuthProvider: FC<AuthProviderProps> = (props) => {
                 id: user!.sub as string,
                 avatar: user!.picture,
                 email: user!.email as string,
-                name: 'Anika Visser',
+                name: user!.name as string,
                 plan: 'Premium'
               }
             }
@@ -187,7 +187,7 @@ export const AuthProvider: FC<AuthProviderProps> = (props) => {
           id: user!.sub as string,
           avatar: user!.picture,
           email: user!.email as string,
-          name: 'Anika Visser',
+          name: user!.name as string,
           plan: 'Premium'
         }
       }

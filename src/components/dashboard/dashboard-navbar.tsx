@@ -24,6 +24,7 @@ import { ContactsPopover } from './contacts-popover';
 import { ContentSearchDialog } from './content-search-dialog';
 import { NotificationsPopover } from './notifications-popover';
 import { LanguagePopover } from './language-popover';
+import { useAuth } from '../../hooks/use-auth'
 
 interface DashboardNavbarProps extends AppBarProps {
   onOpenSidebar?: () => void;
@@ -210,12 +211,13 @@ const NotificationsButton = () => {
 const AccountButton = () => {
   const anchorRef = useRef<HTMLButtonElement | null>(null);
   const [openPopover, setOpenPopover] = useState<boolean>(false);
+
   // To get the user from the authContext, you can use
-  // `const { user } = useAuth();`
-  const user = {
-    avatar: '/static/mock-images/avatars/avatar-anika_visser.png',
-    name: 'Anika Visser'
-  };
+  const { user } = useAuth();
+  // const user = {
+  //   avatar: '/static/mock-images/avatars/avatar-anika_visser.png',
+  //   name: 'Anika Visser'
+  // };
 
   const handleOpenPopover = (): void => {
     setOpenPopover(true);
@@ -242,7 +244,7 @@ const AccountButton = () => {
             height: 40,
             width: 40
           }}
-          src={user.avatar}
+          src={user?.avatar}
         >
           <UserCircleIcon fontSize="small" />
         </Avatar>

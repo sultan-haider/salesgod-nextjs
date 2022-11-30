@@ -36,7 +36,7 @@ const Login: NextPage = () => {
     <>
       <Head>
         <title>
-          Login | Material Kit Pro
+          Login | SalesGod
         </title>
       </Head>
       <Box
@@ -48,7 +48,7 @@ const Login: NextPage = () => {
           minHeight: '100vh'
         }}
       >
-        <AuthBanner />
+        {/*<AuthBanner />*/}
         <Container
           maxWidth="sm"
           sx={{
@@ -58,7 +58,7 @@ const Login: NextPage = () => {
             }
           }}
         >
-          <Box
+          {/*<Box
             sx={{
               alignItems: 'center',
               backgroundColor: (theme) => theme.palette.mode === 'dark'
@@ -91,7 +91,7 @@ const Login: NextPage = () => {
               alt="Auth platform"
               src={platformIcons[platform]}
             />
-          </Box>
+          </Box>*/}
           <Card
             elevation={16}
             sx={{ p: 4 }}

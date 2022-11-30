@@ -19,6 +19,7 @@ import { Cog as CogIcon } from '../../icons/cog';
 import { UserCircle as UserCircleIcon } from '../../icons/user-circle';
 import { SwitchHorizontalOutlined as SwitchHorizontalOutlinedIcon } from '../../icons/switch-horizontal-outlined';
 
+
 interface AccountPopoverProps {
   anchorEl: null | Element;
   onClose?: () => void;
@@ -30,11 +31,11 @@ export const AccountPopover: FC<AccountPopoverProps> = (props) => {
   const router = useRouter();
   const { logout } = useAuth();
   // To get the user from the authContext, you can use
-  // `const { user } = useAuth();`
-  const user = {
-    avatar: '/static/mock-images/avatars/avatar-anika_visser.png',
-    name: 'Anika Visser'
-  };
+  const { user } = useAuth();
+  // const user = {
+  //   avatar: '/static/mock-images/avatars/avatar-anika_visser.png',
+  //   name: 'Anika Visser'
+  // };
 
   const handleLogout = async (): Promise<void> => {
     try {
@@ -69,7 +70,7 @@ export const AccountPopover: FC<AccountPopoverProps> = (props) => {
         }}
       >
         <Avatar
-          src={user.avatar}
+          src={user?.avatar}
           sx={{
             height: 40,
             width: 40
@@ -83,7 +84,7 @@ export const AccountPopover: FC<AccountPopoverProps> = (props) => {
           }}
         >
           <Typography variant="body1">
-            {user.name}
+            {user?.name}
           </Typography>
           <Typography
             color="textSecondary"

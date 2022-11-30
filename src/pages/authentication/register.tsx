@@ -36,7 +36,7 @@ const Register: NextPage = () => {
     <>
       <Head>
         <title>
-          Register | Material Kit Pro
+          Register | SalesGod
         </title>
       </Head>
       <Box
@@ -48,7 +48,7 @@ const Register: NextPage = () => {
           minHeight: '100vh'
         }}
       >
-        <AuthBanner />
+        {/*<AuthBanner />*/}
         <Container
           maxWidth="sm"
           sx={{
@@ -58,7 +58,7 @@ const Register: NextPage = () => {
             }
           }}
         >
-          <Box
+          {/*<Box
             sx={{
               alignItems: 'center',
               backgroundColor: (theme) => theme.palette.mode === 'dark'
@@ -91,7 +91,7 @@ const Register: NextPage = () => {
               alt="Auth platform"
               src={platformIcons[platform]}
             />
-          </Box>
+          </Box>*/}
           <Card
             elevation={16}
             sx={{ p: 4 }}
