@@ -9,23 +9,86 @@ import {
   Grid,
   Switch,
   TextField,
-  Typography
+  Typography,
+  Alert,
+  Snackbar,
+  Dialog,
+    DialogActions,
+    DialogTitle,
+  DialogContent,
+  DialogContentText
+
 } from '@mui/material';
+import Stack from '@mui/material/Stack';
 import { UserCircle as UserCircleIcon } from '../../../icons/user-circle';
 import { useAuth } from '../../../hooks/use-auth'
+import {auth0UserManagementCall, auth0RequestPasswordChange} from "../../../apis";
+import {useRef, useState} from "react";
+import {services} from "../../../config";
+import {LoadingButton} from "@mui/lab";
 
 export const AccountGeneralSettings: FC = (props) => {
   // To get the user from the authContext, you can use
   const { user } = useAuth();
+  const [userName, setUserName] = useState(user?.name || '')
+  const [userEmail, setUserEmail] = useState(user?.email || '')
+  const [loading, setLoading] = useState<string | null>(null)
+  const [openSnack, setOpenSnack] = useState<boolean | undefined>(false)
+  const [snackMessage, setSnackMessage] = useState<string | null >('Success')
+  const [openSnackError, setOpenSnackError] = useState<boolean | string | null >(null)
+  const [openPasswordDialog, setOpenPasswordDialog] = useState<boolean>(false)
+
+
   // const user = {
   //   avatar: '/static/mock-images/avatars/avatar-anika_visser.png',
   //   name: 'Anika Visser'
   // };
 
-  const handlePasswordChange = () => {
-    console.log('password change')
+  const handlePasswordChange = async (type: string) => {
+    setOpenPasswordDialog(true)
+  }
+  const handlePasswordApi = async (type: string) => {
+    const reqPayload = {
+      email: user?.email,
+    }
+    setLoading(null)
+    setLoading(type)
+    await auth0RequestPasswordChange({ url: `/user/update-user`, payload:reqPayload, method: 'POST'}).then(res=>{
+      setLoading(null)
+      setOpenSnack(true)
+      setOpenPasswordDialog(false)
+    }).catch((err)=>{
+      setLoading(null)
+      setOpenPasswordDialog(false)
+    })
+  }
+  const handleUpdateProfile = async (payload: any, loading: any) => {
+    setLoading(loading)
+    const reqPayload = {
+      userId: user?.id,
+      data: {
+       ...payload
+      }
+    }
+    await auth0UserManagementCall({ url: `/user/update-user`, payload:reqPayload, method: 'POST'}).then(res=>{
+      setSnackMessage('Successfully updated profile!')
+      setLoading(null)
+      setOpenSnack(true)
+    }).catch((err)=>{
+      if (err?.status === 409) {
+          setOpenSnackError('This email already exists!')
+      }
+      setLoading(null)
+    })
+  }
+  const handleClose = () => {
+    setOpenSnack(false)
+    setOpenSnackError(null)
+    setOpenPasswordDialog(false)
+
   }
 
+  // @ts-ignore
   return (
     <Box
       sx={{ mt: 4 }}
@@ -52,6 +115,36 @@ export const AccountGeneralSettings: FC = (props) => {
               xs={12}
             >
               <Box
+                  sx={{
+                    alignItems: 'center',
+                    display: 'flex',
+                    width: '100%',
+                    mb: 2
+                  }}
+              >
+                <Snackbar open={openSnack}
+                          autoHideDuration={2000}
+                          anchorOrigin={{vertical: 'top', horizontal: 'right'}}
+                          onClose={handleClose}>
+                  <Alert onClose={handleClose}
+                         severity="success"
+                         sx={{ width: '100%' }}>
+                    {snackMessage}
+                  </Alert>
+                </Snackbar>
+                <Snackbar open={!!openSnackError}
+                          autoHideDuration={2000}
+                          anchorOrigin={{vertical: 'top', horizontal: 'right'}}
+                          onClose={handleClose}>
+                  <Alert onClose={handleClose}
+                         severity="error"
+                         sx={{ width: '100%' }}>
+                    {openSnackError}
+                  </Alert>
+                </Snackbar>
+              </Box>
+
+              <Box
                 sx={{
                   alignItems: 'center',
                   display: 'flex'
@@ -67,9 +160,18 @@ export const AccountGeneralSettings: FC = (props) => {
                 >
                   <UserCircleIcon fontSize="small" />
                 </Avatar>
-                <Button>
-                  Change
-                </Button>
+                <Stack direction="row"
+                       alignItems="center"
+                       spacing={2}>
+                  {/*<Button variant="contained"*/}
+                  {/*        component="label">*/}
+                  {/*  Change*/}
+                  {/*  <input hidden*/}
+                  {/*         accept="image/*"*/}
+                  {/*         multiple={false}*/}
+                  {/*         type="file" />*/}
+                  {/*</Button>*/}
+                </Stack>
               </Box>
               <Box
                 sx={{
@@ -81,15 +183,22 @@ export const AccountGeneralSettings: FC = (props) => {
                 <TextField
                   defaultValue={user.name}
                   label="Full Name"
+                  onChange={(e)=>{
+                    setUserName(e.target.value)
+                  }
+                  }
                   size="small"
                   sx={{
                     flexGrow: 1,
                     mr: 3
                   }}
                 />
-                <Button>
-                  Save
-                </Button>
+                <LoadingButton
+                    size="small"
+                    onClick={()=> {handleUpdateProfile({name: userName}, 'userName')}}
+                    loading={loading === 'userName'}
+                    variant="text"
+                >Save</LoadingButton>
               </Box>
               <Box
                 sx={{
@@ -100,8 +209,13 @@ export const AccountGeneralSettings: FC = (props) => {
               >
                 <TextField
                   defaultValue={user?.email}
-                  disabled
                   label="Email Address"
+                  type="email"
+                  onChange={(e)=>{
+                    setUserEmail(e.target.value)
+                  }}
+                  error={!!openSnackError}
+                  helperText={!openSnackError ? 'You need to verify your email that will be sent to your email box.' : openSnackError}
                   size="small"
                   sx={{
                     flexGrow: 1,
@@ -111,9 +225,12 @@ export const AccountGeneralSettings: FC = (props) => {
                     }
                   }}
                 />
-                <Button>
-                  Edit
-                </Button>
+                <LoadingButton
+                    size="small"
+                    onClick={()=> {handleUpdateProfile({email: userEmail}, 'userEmail')}}
+                    loading={loading === 'userEmail'}
+                    variant="text"
+                >Save</LoadingButton>
               </Box>
               <Box
                   sx={{
@@ -122,25 +239,11 @@ export const AccountGeneralSettings: FC = (props) => {
                     alignItems: 'center'
                   }}
               >
-                <TextField
-                    disabled
-                    label="Password"
-                    type="password"
-                    defaultValue="Thebestpasswordever123#"
+                <Button
                     size="small"
-                    sx={{
-                      flexGrow: 1,
-                      mr: 3,
-                      ...({
-                        '& .MuiOutlinedInput-notchedOutline': {
-                          borderStyle: 'dotted'
-                        }
-                      })
-                    }}
-                />
-                <Button onClick={handlePasswordChange}>
-                  Edit
-                </Button>
+                    onClick={()=>(handlePasswordChange('changePassword'))}
+                    variant="text"
+                >Send Change Password Request</Button>
               </Box>
             </Grid>
           </Grid>
@@ -254,6 +357,35 @@ export const AccountGeneralSettings: FC = (props) => {
           </Grid>
         </CardContent>
       </Card>
+
+      {/*Dialogues and interactions*/}
+      <Dialog
+          open={openPasswordDialog}
+          onClose={handleClose}
+          aria-labelledby="responsive-dialog-title"
+      >
+        <DialogTitle id="responsive-dialog-title">
+          {"Send email to change password?"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Send an email to your address to change the password.
+            Click on the link in the email and then type and confirm the new password.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button autoFocus
+                  onClick={handleClose}>
+            Cancel
+          </Button>
+          <LoadingButton onClick={()=>{handlePasswordApi('changePassword')}}
+                  autoFocus
+          loading={(loading === 'changePassword')}>
+            Send Email
+          </LoadingButton>
+        </DialogActions>
+      </Dialog>
+
     </Box>
   );
 };

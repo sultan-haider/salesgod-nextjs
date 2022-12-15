@@ -8,8 +8,13 @@ export const amplifyConfig = {
 
 export const auth0Config = {
   client_id: process.env.NEXT_PUBLIC_AUTH0_CLIENT_ID,
-  domain: process.env.NEXT_PUBLIC_AUTH0_DOMAIN
+  domain: process.env.NEXT_PUBLIC_AUTH0_DOMAIN,
+  api_client_id: process.env.NEXT_PUBLIC_AUTH0_API_CLIENT_ID,
+  server_url: process.env.NEXT_PUBLIC_SALESGOD_SERVER_ENDPOINT
 };
+export const services = {
+  server_url: process.env.NEXT_PUBLIC_SALESGOD_SERVER_ENDPOINT
+}
 
 export const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
