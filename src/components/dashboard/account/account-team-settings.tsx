@@ -7,7 +7,7 @@ import {
   CardContent,
   Divider,
   IconButton,
-  InputAdornment,
+  InputAdornment, MenuItem, Select,
   Table,
   TableBody,
   TableCell,
@@ -21,6 +21,7 @@ import { Mail as MailIcon } from '../../../icons/mail';
 import { UserCircle as UserCircleIcon } from '../../../icons/user-circle';
 import { Scrollbar } from '../../scrollbar';
 import { SeverityPill } from '../../severity-pill';
+import {PencilAlt as PencilAltIcon} from "../../../icons/pencil-alt";
 
 export const AccountTeamSettings: FC = () => (
   <Card>
@@ -68,6 +69,23 @@ export const AccountTeamSettings: FC = () => (
             )
           }}
         />
+        <Select size="small"
+                sx={{
+                  flexGrow: 0.5
+                }}>
+          <MenuItem value="engineering">Closer</MenuItem>
+          <MenuItem value="design">Setter</MenuItem>
+        </Select>
+
+        <Select size="small"
+                sx={{
+                  m:1.5,
+                  flexGrow: 0.5
+                }}>
+          <MenuItem value="engineering">Member</MenuItem>
+          <MenuItem value="design">Admin</MenuItem>
+        </Select>
+
         <Button
           sx={{ m: 1.5 }}
           variant="contained"
@@ -81,10 +99,16 @@ export const AccountTeamSettings: FC = () => (
         <TableHead>
           <TableRow>
             <TableCell>
-              Member
+              Names
             </TableCell>
             <TableCell>
-              Role
+              Roles
+            </TableCell>
+            <TableCell>
+              Commissions
+            </TableCell>
+            <TableCell>
+              Persmissions
             </TableCell>
             <TableCell />
           </TableRow>
@@ -122,39 +146,51 @@ export const AccountTeamSettings: FC = () => (
             </TableCell>
             <TableCell>
               <SeverityPill>
-                owner
+                Closer
+              </SeverityPill>
+              <SeverityPill>
+                Setter
               </SeverityPill>
             </TableCell>
+            <TableCell>
+              Default
+            </TableCell>
+            <TableCell>
+              <Select size="small" fullWidth>
+                <MenuItem value="engineering">Member</MenuItem>
+                <MenuItem value="design">Admin</MenuItem>
+              </Select>
+            </TableCell>
             <TableCell align="right">
-              <IconButton>
-                <DotsHorizontalIcon fontSize="small" />
+              <IconButton component="a">
+                <PencilAltIcon fontSize="small" />
               </IconButton>
             </TableCell>
           </TableRow>
           <TableRow>
             <TableCell>
               <Box
-                sx={{
-                  alignItems: 'center',
-                  display: 'flex'
-                }}
+                  sx={{
+                    alignItems: 'center',
+                    display: 'flex'
+                  }}
               >
                 <Avatar
-                  alt="Cao Yu"
-                  src="/static/mock-images/avatars/avatar-cao-yu.png"
-                  sx={{
-                    height: 40,
-                    width: 40,
-                    mr: 1
-                  }}
-                />
+                    sx={{
+                      height: 40,
+                      width: 40,
+                      mr: 1
+                    }}
+                >
+                  <UserCircleIcon fontSize="small" />
+                </Avatar>
                 <div>
                   <Typography variant="subtitle2">
                     Cao Yu
                   </Typography>
                   <Typography
-                    variant="body2"
-                    color="textSecondary"
+                      color="textSecondary"
+                      variant="body2"
                   >
                     cao.yu@devias.io
                   </Typography>
@@ -162,16 +198,184 @@ export const AccountTeamSettings: FC = () => (
               </Box>
             </TableCell>
             <TableCell>
-              <Typography
-                color="textSecondary"
-                variant="body2"
-              >
-                Editor
-              </Typography>
+              <SeverityPill>
+                Closer
+              </SeverityPill>
+              <SeverityPill>
+                Setter
+              </SeverityPill>
+            </TableCell>
+            <TableCell>
+              Default
+            </TableCell>
+            <TableCell>
+              <Select size="small" fullWidth>
+                <MenuItem value="engineering">Member</MenuItem>
+                <MenuItem value="design">Admin</MenuItem>
+              </Select>
             </TableCell>
             <TableCell align="right">
-              <IconButton>
-                <DotsHorizontalIcon fontSize="small" />
+              <IconButton component="a">
+                <PencilAltIcon fontSize="small" />
+              </IconButton>
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>
+              <Box
+                  sx={{
+                    alignItems: 'center',
+                    display: 'flex'
+                  }}
+              >
+                <Avatar
+                    sx={{
+                      height: 40,
+                      width: 40,
+                      mr: 1
+                    }}
+                >
+                  <UserCircleIcon fontSize="small" />
+                </Avatar>
+                <div>
+                  <Typography variant="subtitle2">
+                    Cao Yu
+                  </Typography>
+                  <Typography
+                      color="textSecondary"
+                      variant="body2"
+                  >
+                    cao.yu@devias.io
+                  </Typography>
+                </div>
+              </Box>
+            </TableCell>
+            <TableCell>
+              <SeverityPill>
+                Closer
+              </SeverityPill>
+              <SeverityPill>
+                Setter
+              </SeverityPill>
+            </TableCell>
+            <TableCell>
+              Default
+            </TableCell>
+            <TableCell>
+              <Select size="small" fullWidth>
+                <MenuItem value="engineering">Member</MenuItem>
+                <MenuItem value="design">Admin</MenuItem>
+              </Select>
+            </TableCell>
+            <TableCell align="right">
+              <IconButton component="a">
+                <PencilAltIcon fontSize="small" />
+              </IconButton>
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>
+              <Box
+                  sx={{
+                    alignItems: 'center',
+                    display: 'flex'
+                  }}
+              >
+                <Avatar
+                    sx={{
+                      height: 40,
+                      width: 40,
+                      mr: 1
+                    }}
+                >
+                  <UserCircleIcon fontSize="small" />
+                </Avatar>
+                <div>
+                  <Typography variant="subtitle2">
+                    Cao Yu
+                  </Typography>
+                  <Typography
+                      color="textSecondary"
+                      variant="body2"
+                  >
+                    cao.yu@devias.io
+                  </Typography>
+                </div>
+              </Box>
+            </TableCell>
+            <TableCell>
+              <SeverityPill>
+                Closer
+              </SeverityPill>
+              <SeverityPill>
+                Setter
+              </SeverityPill>
+            </TableCell>
+            <TableCell>
+              Default
+            </TableCell>
+            <TableCell>
+              <Select size="small" fullWidth>
+                <MenuItem value="engineering">Member</MenuItem>
+                <MenuItem value="design">Admin</MenuItem>
+              </Select>
+            </TableCell>
+            <TableCell align="right">
+              <IconButton component="a">
+                <PencilAltIcon fontSize="small" />
+              </IconButton>
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>
+              <Box
+                  sx={{
+                    alignItems: 'center',
+                    display: 'flex'
+                  }}
+              >
+                <Avatar
+                    sx={{
+                      height: 40,
+                      width: 40,
+                      mr: 1
+                    }}
+                >
+                  <UserCircleIcon fontSize="small" />
+                </Avatar>
+                <div>
+                  <Typography variant="subtitle2">
+                    Cao Yu
+                  </Typography>
+                  <Typography
+                      color="textSecondary"
+                      variant="body2"
+                  >
+                    cao.yu@devias.io
+                  </Typography>
+                </div>
+              </Box>
+            </TableCell>
+            <TableCell>
+              <SeverityPill>
+                Closer
+              </SeverityPill>
+              <SeverityPill>
+                Setter
+              </SeverityPill>
+            </TableCell>
+            <TableCell>
+              Default
+            </TableCell>
+            <TableCell>
+              <Select size="small" fullWidth>
+                <MenuItem value="engineering">Member</MenuItem>
+                <MenuItem value="design">Admin</MenuItem>
+              </Select>
+            </TableCell>
+            <TableCell align="right">
+              <IconButton component="a">
+                <PencilAltIcon fontSize="small" />
               </IconButton>
             </TableCell>
           </TableRow>

@@ -11,12 +11,16 @@ import { AccountNotificationsSettings } from '../../components/dashboard/account
 import { AccountTeamSettings } from '../../components/dashboard/account/account-team-settings';
 import { AccountSecuritySettings } from '../../components/dashboard/account/account-security-settings';
 import { gtm } from '../../lib/gtm';
+import {AccountIntegrationSettings} from "../../components/dashboard/account/account-integration-settings";
 
 const tabs = [
   { label: 'General', value: 'general' },
-  { label: 'Billing', value: 'billing' },
+  { label: 'Integrations', value: 'integrations' },
   { label: 'Team', value: 'team' },
+  { label: 'Commissions', value: 'commissions' },
+  { label: 'Products', value: 'products' },
   { label: 'Notifications', value: 'notifications' },
+  { label: 'Billing', value: 'billing' },
   { label: 'Security', value: 'security' }
 ];
 
@@ -68,9 +72,12 @@ const Account: NextPage = () => {
           </Tabs>
           <Divider sx={{ mb: 3 }} />
           {currentTab === 'general' && <AccountGeneralSettings />}
-          {currentTab === 'billing' && <AccountBillingSettings />}
+          {currentTab === 'integrations' && <AccountIntegrationSettings />}
           {currentTab === 'team' && <AccountTeamSettings />}
+          {currentTab === 'commissions' && <AccountTeamSettings />}
+          {currentTab === 'products' && <AccountTeamSettings />}
           {currentTab === 'notifications' && <AccountNotificationsSettings />}
+          {currentTab === 'billing' && <AccountBillingSettings />}
           {currentTab === 'security' && <AccountSecuritySettings />}
         </Container>
       </Box>
