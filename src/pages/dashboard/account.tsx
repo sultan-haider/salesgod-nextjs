@@ -12,6 +12,7 @@ import { AccountTeamSettings } from '../../components/dashboard/account/account-
 import { AccountSecuritySettings } from '../../components/dashboard/account/account-security-settings';
 import { gtm } from '../../lib/gtm';
 import {AccountIntegrationSettings} from "../../components/dashboard/account/account-integration-settings";
+import {CommissionRoleSettings} from "../../components/dashboard/account/commission-role-settings";
 
 const tabs = [
   { label: 'General', value: 'general' },
@@ -74,7 +75,7 @@ const Account: NextPage = () => {
           {currentTab === 'general' && <AccountGeneralSettings />}
           {currentTab === 'integrations' && <AccountIntegrationSettings />}
           {currentTab === 'team' && <AccountTeamSettings />}
-          {currentTab === 'commissions' && <AccountTeamSettings />}
+          {currentTab === 'commissions' && <CommissionRoleSettings />}
           {currentTab === 'products' && <AccountTeamSettings />}
           {currentTab === 'notifications' && <AccountNotificationsSettings />}
           {currentTab === 'billing' && <AccountBillingSettings />}
