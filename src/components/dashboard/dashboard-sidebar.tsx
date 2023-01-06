@@ -33,6 +33,7 @@ import { Logo } from '../logo';
 import { Scrollbar } from '../scrollbar';
 import { DashboardSidebarSection } from './dashboard-sidebar-section';
 import { OrganizationPopover } from './organization-popover';
+import {useSelector} from "../../store";
 
 interface DashboardSidebarProps {
   onClose?: () => void;
@@ -319,6 +320,9 @@ export const DashboardSidebar: FC<DashboardSidebarProps> = (props) => {
   const organizationsRef = useRef<HTMLButtonElement | null>(null);
   const [openOrganizationsPopover, setOpenOrganizationsPopover] = useState<boolean>(false);
 
+  // selectors
+  const currentWorkspace = useSelector((state) => state.workspace.currentWorkspace);
+
   const handlePathChange = () => {
     if (!router.isReady) {
       return;
@@ -396,7 +400,7 @@ export const DashboardSidebar: FC<DashboardSidebarProps> = (props) => {
                     color="inherit"
                     variant="subtitle1"
                   >
-                    Acme Inc
+                    {currentWorkspace?.workspaceName}
                   </Typography>
                   <Typography
                     color="neutral.400"

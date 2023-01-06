@@ -126,6 +126,7 @@ export const AuthProvider: FC<AuthProviderProps> = (props) => {
         if (isAuthenticated) {
           const user = await auth0Client.getUser();
 
+
           // Here you should extract the complete user profile to make it
           // available in your entire app.
           // The auth state only provides basic information.

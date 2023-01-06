@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import { useAuth } from '../../hooks/use-auth';
+import { useDispatch } from '../../store';
+import {getWorkspaces} from '../../thunks/workspace';
 
 interface AuthGuardProps {
   children: ReactNode;
@@ -11,6 +13,7 @@ interface AuthGuardProps {
 export const AuthGuard: FC<AuthGuardProps> = (props) => {
   const { children } = props;
   const auth = useAuth();
+  const dispatch = useDispatch()
   const router = useRouter();
   const [checked, setChecked] = useState(false);
 
@@ -26,7 +29,9 @@ export const AuthGuard: FC<AuthGuardProps> = (props) => {
           query: { returnUrl: router.asPath }
         }).catch(console.error);
       } else {
-        setChecked(true);
+          dispatch<any>(getWorkspaces({workspaceOwnerId: auth.user!.id})).then(()=>{
+              setChecked(true);
+          })
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps

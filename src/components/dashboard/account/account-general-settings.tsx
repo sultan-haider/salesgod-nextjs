@@ -26,10 +26,12 @@ import {auth0UserManagementCall, auth0RequestPasswordChange} from "../../../apis
 import {useRef, useState} from "react";
 import {services} from "../../../config";
 import {LoadingButton} from "@mui/lab";
+import {useSelector} from "../../../store";
 
 export const AccountGeneralSettings: FC = (props) => {
   // To get the user from the authContext, you can use
   const { user } = useAuth();
+
   const [userName, setUserName] = useState(user?.name || '')
   const [userEmail, setUserEmail] = useState(user?.email || '')
   const [loading, setLoading] = useState<string | null>(null)
@@ -37,7 +39,8 @@ export const AccountGeneralSettings: FC = (props) => {
   const [snackMessage, setSnackMessage] = useState<string | null >('Success')
   const [openSnackError, setOpenSnackError] = useState<boolean | string | null >(null)
   const [openPasswordDialog, setOpenPasswordDialog] = useState<boolean>(false)
-
+  // selectors
+  const currentWorkspace = useSelector((state) => state.workspace.currentWorkspace);
 
   // const user = {
   //   avatar: '/static/mock-images/avatars/avatar-anika_visser.png',
@@ -310,6 +313,78 @@ export const AccountGeneralSettings: FC = (props) => {
                     color="textSecondary"
                     sx={{ mt: 1 }}
                     variant="body2"
+                  >
+                    Toggling this will let your teammates know that you are available for
+                    acquiring new projects.
+                  </Typography>
+                </div>
+                <Switch defaultChecked />
+              </Box>
+            </Grid>
+          </Grid>
+        </CardContent>
+      </Card>
+      <Card sx={{ mt: 4 }}>
+        <CardContent>
+          <Grid
+              container
+              spacing={3}
+          >
+            <Grid
+                item
+                md={4}
+                xs={12}
+            >
+              <Typography variant="h6">
+                Workspace Details
+              </Typography>
+            </Grid>
+            <Grid
+                item
+                md={8}
+                sm={12}
+                xs={12}
+            >
+              <Box
+                  sx={{
+                    alignItems: 'center',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    mb: 3
+                  }}
+              >
+                <div>
+                  <Typography variant="subtitle1">
+                    {currentWorkspace?.workspaceName}
+                  </Typography>
+                  <Typography
+                      color="textSecondary"
+                      sx={{ mt: 1 }}
+                      variant="body2"
+                  >
+                    Means that anyone viewing your profile will be able to see your contacts
+                    details.
+                  </Typography>
+                </div>
+                <Switch />
+              </Box>
+              <Divider />
+              <Box
+                  sx={{
+                    alignItems: 'center',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    mt: 3
+                  }}
+              >
+                <div>
+                  <Typography variant="subtitle1">
+                    Available to hire
+                  </Typography>
+                  <Typography
+                      color="textSecondary"
+                      sx={{ mt: 1 }}
+                      variant="body2"
                   >
                     Toggling this will let your teammates know that you are available for
                     acquiring new projects.

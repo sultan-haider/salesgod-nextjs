@@ -13,6 +13,8 @@ import { AccountSecuritySettings } from '../../components/dashboard/account/acco
 import { gtm } from '../../lib/gtm';
 import {AccountIntegrationSettings} from "../../components/dashboard/account/account-integration-settings";
 import {CommissionRoleSettings} from "../../components/dashboard/account/commission-role-settings";
+import {getWorkspaceMembersThunk} from "../../thunks/workspace-members";
+import {useDispatch, useSelector} from "../../store";
 
 const tabs = [
   { label: 'General', value: 'general' },
@@ -26,11 +28,17 @@ const tabs = [
 ];
 
 const Account: NextPage = () => {
+    const dispatch = useDispatch();
   const [currentTab, setCurrentTab] = useState<string>('general');
+    const currentWorkspace = useSelector((state) => state.workspace.currentWorkspace);
 
   useEffect(() => {
     gtm.push({ event: 'page_view' });
   }, []);
+    useEffect(() => {
+        dispatch(getWorkspaceMembersThunk({workspaceId: currentWorkspace?.id }))
+
+    }, []);
 
   const handleTabsChange = (event: ChangeEvent<{}>, value: string): void => {
     setCurrentTab(value);

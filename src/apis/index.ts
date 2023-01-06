@@ -49,6 +49,59 @@ const requestPasswordChange = async (data: any, token: string, path:string) => {
       })
 }
 
+// get User Workspace
+export const getUserWorkspace = async (data: any) => {
+  const url = `${services.server_url}/workspace/get-workspace`
+  // const url = path
+  return await axios({
+    url: url,
+    method: "POST",
+    headers: {'Content-Type': 'application/json;charset=UTF-8'},
+    data: data
+  })
+      .then((res: any) => {
+        return res.data
+      })
+      .catch((err: any) => {
+        console.error('something went wrong', err)
+        throw err.response
+      })
+}
+export const getUserWorkspaceRecursive = async (data: any) => {
+  const url = `${services.server_url}/workspace/get-workspace-recursive`
+  // const url = path
+  return await axios({
+    url: url,
+    method: "POST",
+    headers: {'Content-Type': 'application/json;charset=UTF-8'},
+    data: data
+  })
+      .then((res: any) => {
+        return res.data
+      })
+      .catch((err: any) => {
+        console.error('something went wrong', err)
+        throw err.response
+      })
+}
+
+export const getWorkspaceTeamMembersApi = async (data: any) => {
+  const url = `${services.server_url}/workspace/fetch-members`
+  // const url = path
+  return await axios({
+    url: url,
+    method: "POST",
+    headers: {'Content-Type': 'application/json;charset=UTF-8'},
+    data: data
+  })
+      .then((res: any) => {
+        return res.data
+      })
+      .catch((err: any) => {
+        console.error('something went wrong', err)
+        throw err.response
+      })
+}
 export const auth0UserManagementCall = async ({ url, payload, method }: IProps) => {
   // return initiateApiCall({ apiObject: serverAxios, url, payload, method })
   return updateUserRequest(payload, '', url!)
@@ -58,6 +111,7 @@ export const auth0RequestPasswordChange = async ({ url, payload, method }: IProp
   // return initiateApiCall({ apiObject: serverAxios, url, payload, method })
   return requestPasswordChange(payload, '', url!)
 }
+
 
 
 const initiateApiCall = async ({ apiObject, url, payload, method, token}: IProps) => {

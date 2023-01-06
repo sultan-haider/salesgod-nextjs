@@ -50,7 +50,7 @@ const App: FC<EnhancedAppProps> = (props) => {
     <CacheProvider value={emotionCache}>
       <Head>
         <title>
-          Material Kit Pro
+          SalesGod | Track Sales effectively.
         </title>
         <meta
           name="viewport"
