@@ -123,7 +123,7 @@ export const CommissionRoleSettings: FC = () => {
         }
     ];
 
-    const handleChangeSetterType = (event) => {
+    const handleChangeSetterType = (event: any) => {
         console.log(event)
     }
 

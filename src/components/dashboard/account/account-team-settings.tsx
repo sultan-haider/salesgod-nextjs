@@ -39,8 +39,8 @@ export const AccountTeamSettings: FC = () => {
     const [isValidInput, setIsValidInput] = useState(true)
     const [isAddingMember, setIsAddingMember] = useState(false)
     const [showSnack, setShowSnack] = useState(false)
-    const [snackContent, setSnackContent] = useState(null)
-    const [snackSeverity, setSnackSeverity] = useState<string |  undefined>('success')
+    const [snackContent, setSnackContent] = useState<any>(null)
+    const [snackSeverity, setSnackSeverity] = useState<any>('success')
     const emailValidationReg = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
   // selectors
   const currentWorkspace = useSelector((state) => state.workspace.currentWorkspace);
@@ -85,7 +85,7 @@ export const AccountTeamSettings: FC = () => {
             console.log(error)
         })
     }
-    const showSnackBar  = (message: string, severity) => {
+    const showSnackBar  = (message: string, severity: string) => {
         setShowSnack(true)
         setSnackContent(message)
         setSnackSeverity(severity)
@@ -291,7 +291,7 @@ export const AccountTeamSettings: FC = () => {
                     anchorOrigin={{vertical: 'top', horizontal: 'right'}}
                     onClose={()=>{setShowSnack(false)}}>
               <Alert onClose={()=>{setShowSnack(false)}}
-                     severity={snackSeverity}
+                     severity={snackSeverity!}
                      sx={{ width: '100%' }}>
                   {snackContent}
               </Alert>
