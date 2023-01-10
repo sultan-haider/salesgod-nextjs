@@ -79,7 +79,7 @@ export const AccountTeamSettings: FC = () => {
             setIsAddingMember(false)
             showSnackBar('Success! Member has been added Successfully.', 'success')
             console.log(res)
-        }).catch((error)=>{
+        }).catch((error: any)=>{
             setIsAddingMember(false)
             showSnackBar('Error! Could not add Member.', 'error')
             console.log(error)
