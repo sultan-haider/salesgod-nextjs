@@ -1,7 +1,6 @@
-
-import { getWorkspaceTeamMembersApi} from '../apis'
-import { slice } from '../slices/workspace-members';
-import { AppThunk } from '../store';
+import {addWorkspaceTeamMembersApi, getWorkspaceTeamMembersApi} from '../apis'
+import {slice} from '../slices/workspace-members';
+import {AppThunk} from '../store';
 
 export const getWorkspaceMembersThunk = (payload: unknown): AppThunk => async (dispatch): Promise<void> => {
   const response = await getWorkspaceTeamMembersApi(payload);
@@ -10,5 +9,7 @@ export const getWorkspaceMembersThunk = (payload: unknown): AppThunk => async (d
     dispatch(slice.actions.setMembersList(response));
   }
 
-
+};
+export const addMemberToWorkspaceThunk = (payload: unknown): AppThunk => async (dispatch): Promise<void> => {
+  return await addWorkspaceTeamMembersApi(payload)
 };

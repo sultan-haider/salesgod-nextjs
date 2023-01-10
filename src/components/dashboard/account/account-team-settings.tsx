@@ -1,20 +1,21 @@
 import type { FC } from 'react';
 import {
-  Avatar,
-  Box,
-  Button,
-  Card,
-  CardContent, Chip,
-  Divider,
-  IconButton,
-  InputAdornment, MenuItem, Select,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  TextField,
-  Typography
+    Alert,
+    Avatar,
+    Box,
+    Button,
+    Card,
+    CardContent, Chip,
+    Divider,
+    IconButton,
+    InputAdornment, MenuItem, Select, Snackbar,
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableRow,
+    TextField,
+    Typography
 } from '@mui/material';
 import { DotsHorizontal as DotsHorizontalIcon } from '../../../icons/dots-horizontal';
 import { Mail as MailIcon } from '../../../icons/mail';
@@ -22,11 +23,25 @@ import { UserCircle as UserCircleIcon } from '../../../icons/user-circle';
 import { Scrollbar } from '../../scrollbar';
 import { SeverityPill } from '../../severity-pill';
 import {PencilAlt as PencilAltIcon} from "../../../icons/pencil-alt";
-import {useSelector} from "../../../store";
-import {useEffect} from "react";
-import {WorkspaceRoleCommission} from "../../../types/workspace";
+import {useDispatch, useSelector} from "../../../store";
+import {useEffect, useState} from "react";
+import {WorkspacePermission, WorkspaceRoleCommission} from "../../../types/workspace";
+import cuid from 'cuid';
+import {addMemberToWorkspaceThunk} from "../../../thunks/workspace-members";
+import { LoadingButton } from '@mui/lab';
 
 export const AccountTeamSettings: FC = () => {
+    const dispatch = useDispatch();
+    // states
+    const [selectedMemberRole, setSelectedMemberRole] = useState<any>(null)
+    const [selectedMemberPermission, setSelectedMemberPermission] = useState<any>(null)
+    const [memberEmail, setMemberEmail] = useState<String | null>(null)
+    const [isValidInput, setIsValidInput] = useState(true)
+    const [isAddingMember, setIsAddingMember] = useState(false)
+    const [showSnack, setShowSnack] = useState(false)
+    const [snackContent, setSnackContent] = useState(null)
+    const [snackSeverity, setSnackSeverity] = useState<string |  undefined>('success')
+    const emailValidationReg = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
   // selectors
   const currentWorkspace = useSelector((state) => state.workspace.currentWorkspace);
   const workspaceMembers = useSelector((state) => state.workspaceMembers.workspaceMembers);
@@ -34,6 +49,66 @@ export const AccountTeamSettings: FC = () => {
     console.log({permissions: currentWorkspace?.workspacePermission, roleCommission: currentWorkspace?.workspaceRoleCommission})
     console.log({workspaceMembers})
   },[currentWorkspace])
+
+    const handleSendInvite = () =>{
+      setIsAddingMember(true)
+      const inviteMemberPayload = {
+          memberId: cuid(), // its a new members
+          memberName: "member name",
+          memberEmail: memberEmail,
+          memberAvatar: "https://cdn.salesgod.com/user/avatar/2.png",
+          workspaceMemberId: cuid(),
+          permissionId: cuid(), // permission Id for default permission of the user.
+          workspacePermissionId: selectedMemberPermission?.id, // workspace permission selected.
+          isCustomCommission: false,
+          isCustomPermission: false,
+
+          roles: [{
+              workspaceMemberRoleId: cuid(),
+              salesRoleId: selectedMemberRole.salesRoleId,
+              commissionId: cuid(),  // default commission for the user if he has enabled custom commission.
+              commissionTypeId: selectedMemberRole.commission.commissionTypeId,
+              commissionValue:selectedMemberRole.commission.commissionValue
+          }],
+          workspaceId: currentWorkspace?.id
+      }
+
+
+        console.log({inviteMemberPayload}, !!inviteMemberPayload.memberEmail?.match(emailValidationReg))
+        dispatch<any>(addMemberToWorkspaceThunk(inviteMemberPayload)).then((res: any) => {
+            setIsAddingMember(false)
+            showSnackBar('Success! Member has been added Successfully.', 'success')
+            console.log(res)
+        }).catch((error)=>{
+            setIsAddingMember(false)
+            showSnackBar('Error! Could not add Member.', 'error')
+            console.log(error)
+        })
+    }
+    const showSnackBar  = (message: string, severity) => {
+        setShowSnack(true)
+        setSnackContent(message)
+        setSnackSeverity(severity)
+    }
+    const handleSelectChange = (event: any) =>{
+      console.log(event.target)
+        if(event.target.name === 'ROLE') {
+            const selectedWorkspaceRoleCommission = currentWorkspace?.workspaceRoleCommission.find((object:WorkspaceRoleCommission)=> object.salesRole.id === event.target.value )
+            setSelectedMemberRole(selectedWorkspaceRoleCommission)
+
+        } else if (event.target.name === 'PERMISSION'){
+            const selectedWorkspacePermission = currentWorkspace?.workspacePermission.find((object:WorkspacePermission)=> object.permissionId ===  event.target.value)
+            setSelectedMemberPermission(selectedWorkspacePermission)
+        }
+
+    }
+
+    const handleEmailInput = (event: any) => {
+        setMemberEmail(event.target.value)
+    }
+    useEffect(()=>{
+        console.log({selectedMemberRole, selectedMemberPermission})
+    }, [selectedMemberRole, selectedMemberPermission])
   return(
       <Card>
         <CardContent>
@@ -72,6 +147,7 @@ export const AccountTeamSettings: FC = () => {
                   m: 1.5,
                   flexGrow: 1
                 }}
+                onChange={handleEmailInput}
                 InputProps={{
                   startAdornment: (
                       <InputAdornment position="start">
@@ -80,35 +156,46 @@ export const AccountTeamSettings: FC = () => {
                   )
                 }}
             />
-            <Select placeholder={'Select Role'} size="small"
+            <Select  name={'ROLE'} placeholder={'Select Role'} size="small"
+                    onChange={handleSelectChange}
                     sx={{
                       flexGrow: 0.5
                     }}>
                     {currentWorkspace?.workspaceRoleCommission?.map((workspaceRole: WorkspaceRoleCommission, workspaceRoleIndex: number)=>{
                         return(
                         <MenuItem key={workspaceRoleIndex}
-                        value={workspaceRole?.salesRole?.roleType}
+                        value={workspaceRole?.salesRole?.id}
                         >{workspaceRole?.salesRole?.roleName}
                         </MenuItem>
                         )
                     })}
             </Select>
 
-            <Select size="small"
+            <Select name={'PERMISSION'} size="small"
+                    onChange={handleSelectChange}
                     sx={{
                       m:1.5,
                       flexGrow: 0.5
                     }}>
-              <MenuItem value="engineering">Member</MenuItem>
-              <MenuItem value="design">Admin</MenuItem>
+                {currentWorkspace?.workspacePermission?.map((workspacePermission: WorkspacePermission, workspacePermissionIndex: number)=>{
+                    return(
+                        <MenuItem key={workspacePermissionIndex}
+                                  value={workspacePermission?.permission?.id}
+                        >{workspacePermission?.permission?.permissionType}
+                        </MenuItem>
+                    )
+                })}
             </Select>
 
-            <Button
+            <LoadingButton
                 sx={{ m: 1.5 }}
                 variant="contained"
+                loading={isAddingMember}
+                disabled={!selectedMemberRole || !selectedMemberPermission || !memberEmail || !isValidInput}
+                onClick={handleSendInvite}
             >
               Send Invite
-            </Button>
+            </LoadingButton>
           </Box>
         </CardContent>
         <Scrollbar>
@@ -199,6 +286,16 @@ export const AccountTeamSettings: FC = () => {
             </TableBody>
           </Table>
         </Scrollbar>
+          <Snackbar open={showSnack}
+                    autoHideDuration={2000}
+                    anchorOrigin={{vertical: 'top', horizontal: 'right'}}
+                    onClose={()=>{setShowSnack(false)}}>
+              <Alert onClose={()=>{setShowSnack(false)}}
+                     severity={snackSeverity}
+                     sx={{ width: '100%' }}>
+                  {snackContent}
+              </Alert>
+          </Snackbar>
       </Card>
   );
 }

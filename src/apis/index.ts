@@ -102,6 +102,57 @@ export const getWorkspaceTeamMembersApi = async (data: any) => {
         throw err.response
       })
 }
+export const addWorkspaceTeamMembersApi = async (data: any) => {
+  const url = `${services.server_url}/workspace/add-member`
+  // const url = path
+  return await axios({
+    url: url,
+    method: "POST",
+    headers: {'Content-Type': 'application/json;charset=UTF-8'},
+    data: data
+  })
+      .then((res: any) => {
+        return res.data
+      })
+      .catch((err: any) => {
+        console.error('something went wrong', err)
+        throw err.response
+      })
+}
+export const addWorkspaceRoleCommissionApi = async (data: any) => {
+  const url = `${services.server_url}/workspace/create-workspace-commission`
+  // const url = path
+  return await axios({
+    url: url,
+    method: "POST",
+    headers: {'Content-Type': 'application/json;charset=UTF-8'},
+    data: data
+  })
+      .then((res: any) => {
+        return res.data
+      })
+      .catch((err: any) => {
+        console.error('something went wrong', err)
+        throw err.response
+      })
+}
+export const addWorkspacePermissionApi = async (data: any) => {
+  const url = `${services.server_url}/workspace/create-workspace-permissions`
+  // const url = path
+  return await axios({
+    url: url,
+    method: "POST",
+    headers: {'Content-Type': 'application/json;charset=UTF-8'},
+    data: data
+  })
+      .then((res: any) => {
+        return res.data
+      })
+      .catch((err: any) => {
+        console.error('something went wrong', err)
+        throw err.response
+      })
+}
 export const auth0UserManagementCall = async ({ url, payload, method }: IProps) => {
   // return initiateApiCall({ apiObject: serverAxios, url, payload, method })
   return updateUserRequest(payload, '', url!)

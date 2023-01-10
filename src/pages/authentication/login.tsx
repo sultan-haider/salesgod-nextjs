@@ -141,21 +141,21 @@ const Login: NextPage = () => {
             </Box>
             <Divider sx={{ my: 3 }} />
             <div>
-              <NextLink
-                href={
-                  disableGuard
-                    ? `/authentication/register?disableGuard=${disableGuard}`
-                    : '/authentication/register'
-                }
-                passHref
-              >
-                <Link
-                  color="textSecondary"
-                  variant="body2"
-                >
-                  Create new account
-                </Link>
-              </NextLink>
+              {/*<NextLink*/}
+              {/*  href={*/}
+              {/*    disableGuard*/}
+              {/*      ? `/authentication/register?disableGuard=${disableGuard}`*/}
+              {/*      : '/authentication/register'*/}
+              {/*  }*/}
+              {/*  passHref*/}
+              {/*>*/}
+              {/*  <Link*/}
+              {/*    color="textSecondary"*/}
+              {/*    variant="body2"*/}
+              {/*  >*/}
+              {/*    Create new account*/}
+              {/*  </Link>*/}
+              {/*</NextLink>*/}
             </div>
             {platform === 'Amplify' && (
               <Box sx={{ mt: 1 }}>
